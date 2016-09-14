@@ -9,7 +9,20 @@
         "messageKeys": [],
         "projectType": "native",
         "resources": {
-            "media": []
+            "media": [
+                {
+                    "file": "fonts/SOUCISAN.TTF",
+                    "name": "FONT_SOUCISAN_25",
+                    "targetPlatforms": null,
+                    "type": "font"
+                },
+                {
+                    "file": "fonts/SOUCISAN.TTF",
+                    "name": "FONT_SOUCISAN_50",
+                    "targetPlatforms": null,
+                    "type": "font"
+                }
+            ]
         },
         "sdkVersion": "3",
         "targetPlatforms": [
