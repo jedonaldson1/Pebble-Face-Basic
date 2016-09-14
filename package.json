@@ -1,5 +1,5 @@
 {
-    "author": "jordan.e.donaldson@outlook.com",
+    "author": "Jordan Donaldson",
     "dependencies": {},
     "keywords": [],
     "name": "first-watchface",
@@ -12,9 +12,12 @@
             "media": []
         },
         "sdkVersion": "3",
+        "targetPlatforms": [
+            "basalt"
+        ],
         "uuid": "2529faae-86e3-4877-9919-df46034420cd",
         "watchapp": {
-            "watchface": false
+            "watchface": true
         }
     },
     "version": "1.0.0"
