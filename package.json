@@ -1,0 +1,21 @@
+{
+    "author": "jordan.e.donaldson@outlook.com",
+    "dependencies": {},
+    "keywords": [],
+    "name": "first-watchface",
+    "pebble": {
+        "displayName": "First Watchface",
+        "enableMultiJS": true,
+        "messageKeys": [],
+        "projectType": "native",
+        "resources": {
+            "media": []
+        },
+        "sdkVersion": "3",
+        "uuid": "2529faae-86e3-4877-9919-df46034420cd",
+        "watchapp": {
+            "watchface": false
+        }
+    },
+    "version": "1.0.0"
+}
