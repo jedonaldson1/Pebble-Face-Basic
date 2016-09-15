@@ -66,7 +66,7 @@ static void battery_update_proc(Layer *layer, GContext *ctx)
   
   //Draw the bar
   graphics_context_set_fill_color(ctx, GColorWhite);
-  graphics_fill_rect(ctx, GRect(0, 0, width, bounds.size.h), 0, GCornerNone);
+  graphics_fill_rect(ctx, GRect(0, 0, width, bounds.size.h), GCornerNone, 0);
 }
 
 //Function to handle creation of watch face
@@ -101,7 +101,7 @@ static void main_window_load(Window *window)
   layer_add_child(window_layer, text_layer_get_layer(s_date_layer));
   
   //Create battery meter layer
-  s_battery_layer = layer_create(GRect(14, 54, 115, 2));
+  s_battery_layer = layer_create(GRect(14, 160, 115, 2));
   layer_set_update_proc(s_battery_layer, battery_update_proc);
   //Add to Window
   layer_add_child(window_get_root_layer(window), s_battery_layer);
