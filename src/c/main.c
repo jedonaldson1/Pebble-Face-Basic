@@ -14,6 +14,9 @@ static Window *s_main_window;
 static TextLayer *s_time_layer, *s_date_layer;
 //Fonts
 static GFont s_time_font, s_date_font;
+//Other variables
+static int s_battery_level;
+static Layer *s_battery_layer;
 
 //Code to actually update time
 static void update_time()
@@ -38,6 +41,32 @@ static void update_time()
 static void tick_handler(struct tm *tick_time, TimeUnits units_changed)
 {
   update_time();
+}
+
+//Function to update battery level
+static void battery_callback(BatteryChargeState state)
+{
+  //Record the new battery level
+  s_battery_level = state.charge_percent;
+  
+  //Mark layer as dirty
+  layer_mark_dirty(s_battery_layer);
+}
+
+static void battery_update_proc(Layer *layer, GContext *ctx)
+{
+  GRect bounds = layer_get_bounds(layer);
+  
+  //Find the width of the bar
+  int width = (int)(float)(((float)s_battery_level / 100.0F) * 114.0F);
+  
+  //Draw the background
+  graphics_context_set_fill_color(ctx, GColorWhite);
+  graphics_fill_rect(ctx, bounds, 0, GCornerNone);
+  
+  //Draw the bar
+  graphics_context_set_fill_color(ctx, GColorWhite);
+  graphics_fill_rect(ctx, GRect(0, 0, width, bounds.size.h), 0, GCornerNone);
 }
 
 //Function to handle creation of watch face
@@ -68,9 +97,14 @@ static void main_window_load(Window *window)
   text_layer_set_text_color(s_date_layer,GColorWhite);
   text_layer_set_font(s_date_layer, s_date_font);
   text_layer_set_text_alignment(s_date_layer, GTextAlignmentCenter);
-  //text_layer_set_text(s_date_layer, "Wed Sep 14");
   //Add layer as child to Window
   layer_add_child(window_layer, text_layer_get_layer(s_date_layer));
+  
+  //Create battery meter layer
+  s_battery_layer = layer_create(GRect(14, 54, 115, 2));
+  layer_set_update_proc(s_battery_layer, battery_update_proc);
+  //Add to Window
+  layer_add_child(window_get_root_layer(window), s_battery_layer);
 }
 
 //Function to handle destruction of watch face
@@ -83,6 +117,9 @@ static void main_window_unload(Window *window)
   //Destroy GFonts
   fonts_unload_custom_font(s_time_font);
   fonts_unload_custom_font(s_date_font);
+  
+  //Destroy Layers
+  layer_destroy(s_battery_layer);
 }
 
 //Function to create elements of watch face
@@ -107,6 +144,11 @@ static void init()
   
   //Register with TickTimer service
   tick_timer_service_subscribe(MINUTE_UNIT, tick_handler);
+  
+  //Register for battery level updates
+  battery_state_service_subscribe(battery_callback);
+  //Display battery level from the start
+  battery_callback(battery_state_service_peek());
 }
 
 //Function to destroy elements of watch face
