@@ -11,6 +11,12 @@
         "resources": {
             "media": [
                 {
+                    "file": "images/bt-icon.png",
+                    "name": "BLUETOOTH_ICON",
+                    "targetPlatforms": null,
+                    "type": "bitmap"
+                },
+                {
                     "file": "fonts/GeosansLight.ttf",
                     "name": "FONT_GEOSANS_LIGHT_20",
                     "targetPlatforms": null,
@@ -19,18 +25,6 @@
                 {
                     "file": "fonts/GeosansLight.ttf",
                     "name": "FONT_GEOSANS_LIGHT_44",
-                    "targetPlatforms": null,
-                    "type": "font"
-                },
-                {
-                    "file": "fonts/SOUCISAN.TTF",
-                    "name": "FONT_SOUCISAN_50",
-                    "targetPlatforms": null,
-                    "type": "font"
-                },
-                {
-                    "file": "fonts/SOUCISAN.TTF",
-                    "name": "FONT_SOUCISAN_23",
                     "targetPlatforms": null,
                     "type": "font"
                 }

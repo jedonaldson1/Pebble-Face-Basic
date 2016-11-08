@@ -1,10 +1,10 @@
 #include <pebble.h>
 
 /*
-Code written by Jordan Donaldson using the Pebble SDK, C, and JavaScript. Code written
+Code written by Jordan Donaldson using the Pebble SDK, and C. Code written
   from scratch.
 
-The code in this file handles the time, date, and battery level capabilities.
+The code in this file handles the time, date, battery level capabilities, and vibration on disconnection.
 */
 
 //Pointers
@@ -14,6 +14,9 @@ static Window *s_main_window;
 static TextLayer *s_time_layer, *s_date_layer;
 //Fonts
 static GFont s_time_font, s_date_font;
+//Images
+static BitmapLayer *s_bt_icon_layer;
+static GBitmap *s_bt_icon_bitmap;
 //Other variables
 static int s_battery_level;
 static Layer *s_battery_layer;
@@ -60,13 +63,21 @@ static void battery_update_proc(Layer *layer, GContext *ctx)
   //Find the width of the bar
   int width = (int)(float)(((float)s_battery_level / 100.0F) * 114.0F);
   
-  //Draw the background
-  graphics_context_set_fill_color(ctx, GColorWhite);
-  graphics_fill_rect(ctx, bounds, 0, GCornerNone);
-  
   //Draw the bar
   graphics_context_set_fill_color(ctx, GColorWhite);
-  graphics_fill_rect(ctx, GRect(0, 0, width, bounds.size.h), GCornerNone, 0);
+  graphics_fill_rect(ctx, GRect(0, 0, width, bounds.size.h), 0, GCornerNone);
+}
+
+static void bluetooth_callback(bool connected)
+{
+  //Show icon if disconnected
+  layer_set_hidden(bitmap_layer_get_layer(s_bt_icon_layer), connected);
+  
+  if(!connected)
+  {
+    //Issue a vibrating alert
+    vibes_double_pulse();
+  }
 }
 
 //Function to handle creation of watch face
@@ -101,10 +112,19 @@ static void main_window_load(Window *window)
   layer_add_child(window_layer, text_layer_get_layer(s_date_layer));
   
   //Create battery meter layer
-  s_battery_layer = layer_create(GRect(14, 160, 115, 2));
+  s_battery_layer = layer_create(GRect(14, 160, 115, 3));
   layer_set_update_proc(s_battery_layer, battery_update_proc);
   //Add to Window
   layer_add_child(window_get_root_layer(window), s_battery_layer);
+  
+  //Create the Bluetooth icon GBitmap
+  s_bt_icon_bitmap = gbitmap_create_with_resource(RESOURCE_ID_BLUETOOTH_ICON);
+  //Create the BitmapLayer to display the GBitmap
+  s_bt_icon_layer = bitmap_layer_create(GRect(59, 12, 30, 30));
+  bitmap_layer_set_bitmap(s_bt_icon_layer, s_bt_icon_bitmap);
+  layer_add_child(window_get_root_layer(window), bitmap_layer_get_layer(s_bt_icon_layer));
+  //Show the correct state of the BT connection from the start
+  bluetooth_callback(connection_service_peek_pebble_app_connection());
 }
 
 //Function to handle destruction of watch face
@@ -120,6 +140,10 @@ static void main_window_unload(Window *window)
   
   //Destroy Layers
   layer_destroy(s_battery_layer);
+  bitmap_layer_destroy(s_bt_icon_layer);
+  
+  //Destroy Images
+  gbitmap_destroy(s_bt_icon_bitmap);
 }
 
 //Function to create elements of watch face
@@ -149,6 +173,12 @@ static void init()
   battery_state_service_subscribe(battery_callback);
   //Display battery level from the start
   battery_callback(battery_state_service_peek());
+  
+  //Register for bluetooth connection updates
+  connection_service_subscribe((ConnectionHandlers) 
+      {
+        .pebble_app_connection_handler = bluetooth_callback
+      });
 }
 
 //Function to destroy elements of watch face
