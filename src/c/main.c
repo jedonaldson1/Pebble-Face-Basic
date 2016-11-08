@@ -79,7 +79,7 @@ static void main_window_load(Window *window)
   //Create TextLayer with specific bounds (time)
   s_time_layer = text_layer_create(
     GRect(0, PBL_IF_ROUND_ELSE(58,52), bounds.size.w, 50));
-  s_time_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_SOUCISAN_50));
+  s_time_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_GEOSANS_LIGHT_44));
   //Improve layout
   text_layer_set_background_color(s_time_layer,GColorClear);
   text_layer_set_text_color(s_time_layer, GColorWhite);
@@ -91,7 +91,7 @@ static void main_window_load(Window *window)
   //Create TextLayer with specific bounds (date)
   s_date_layer = text_layer_create(
     GRect(0, 105, bounds.size.w, 50));
-  s_date_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_SOUCISAN_23));
+  s_date_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_GEOSANS_LIGHT_20));
   //Improve layout
   text_layer_set_background_color(s_date_layer,GColorClear);
   text_layer_set_text_color(s_date_layer,GColorWhite);
@@ -140,7 +140,7 @@ static void init()
   update_time();
   
   //Sets background color of window
-  window_set_background_color(s_main_window,GColorDarkCandyAppleRed);
+  window_set_background_color(s_main_window,GColorBlack);
   
   //Register with TickTimer service
   tick_timer_service_subscribe(MINUTE_UNIT, tick_handler);

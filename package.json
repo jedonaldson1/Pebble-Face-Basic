@@ -11,14 +11,26 @@
         "resources": {
             "media": [
                 {
-                    "file": "fonts/SOUCISAN.TTF",
-                    "name": "FONT_SOUCISAN_23",
+                    "file": "fonts/GeosansLight.ttf",
+                    "name": "FONT_GEOSANS_LIGHT_20",
+                    "targetPlatforms": null,
+                    "type": "font"
+                },
+                {
+                    "file": "fonts/GeosansLight.ttf",
+                    "name": "FONT_GEOSANS_LIGHT_44",
                     "targetPlatforms": null,
                     "type": "font"
                 },
                 {
                     "file": "fonts/SOUCISAN.TTF",
                     "name": "FONT_SOUCISAN_50",
+                    "targetPlatforms": null,
+                    "type": "font"
+                },
+                {
+                    "file": "fonts/SOUCISAN.TTF",
+                    "name": "FONT_SOUCISAN_23",
                     "targetPlatforms": null,
                     "type": "font"
                 }
