@@ -164,7 +164,7 @@ static void init()
   update_time();
   
   //Sets background color of window
-  window_set_background_color(s_main_window,GColorBlack);
+  window_set_background_color(s_main_window,GColorDarkGray);
   
   //Register with TickTimer service
   tick_timer_service_subscribe(MINUTE_UNIT, tick_handler);
